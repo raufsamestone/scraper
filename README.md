@@ -1,3 +1,28 @@
+## APP 
+
+Use `App` for UI. 
+
+
+## Scraper
+
+`node scrape.js`
+
+This will give you screenshots of websites to `./screenshots`
+
+## Lighthouse
+
+`node lighthouse.js`
+
+This will give you HTML reports of websites to `./reports`
+
+
+### Lighthouse API's
+
+https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
