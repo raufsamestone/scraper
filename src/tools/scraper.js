@@ -1,64 +1,60 @@
-const puppeteer = require("puppeteer");
+const fs = require("fs");
+const puppeteer = require('puppeteer');
 
-async function run() {
+(async () => {
+
+  // Settings
+  const searchTerms = [
+    'shoe',
+    'red shoe',
+  ];
+  const screenshot = false
+
+  
+  const browser = await puppeteer.launch({ headless: true });
   const today = new Date().getDate();
-
-  let browser = await puppeteer.launch({ headless: true });
-  let page = await browser.newPage();
-
-  await page.goto("https://www.twitter.com/konzekteknoloji");
-  await page.waitForTimeout(2000);
-  await page.screenshot({
-    path: `../screenshots/${today}-konzek-twitter.jpg`,
-    type: "jpeg",
-  });
-
-  await page.goto("https://www.google.com/search?q=konzek+teknoloji+linkedin");
-  await page.waitForTimeout(2000);
-  await page.screenshot({
-    path: `../screenshots/${today}-konzek-linkedin.jpg`,
-    type: "jpeg",
-  });
-
-// const queries = [
-// ikinci,
-// birinci
-
-// ]
-//   await page.goto(`https://www.google.com/search?q=${queries}`);
-//   await page.waitForTimeout(2000);
-//   await page.screenshot({
-//     path: `../screenshots/${today}-${queries}3.jpg`,
-//     type: "jpeg",
-//   });
-
-  await page.goto("https://www.twitter.com/akademi40org");
-  await page.waitForTimeout(2000);
-  await page.screenshot({
-    path: `../screenshots/${today}-akademi40-twitter.jpg`,
-    type: "jpeg",
-  });
-
-  await page.goto("https://www.twitter.com/retmonems");
-  await page.waitForTimeout(2000);
-  await page.screenshot({
-    path: `../screenshots/${today}-retmon-twitter.jpg`,
-    type: "jpeg",
-  });
-
-  await page.goto("https://www.twitter.com/retmescom");
-  await page.waitForTimeout(2000);
-  await page.screenshot({
-    path: `../screenshots/${today}-retmes-twitter.jpg`,
-    type: "jpeg",
-  });
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 });
 
 
+  for (let i = 0; i < searchTerms.length; i++) {
+    const query = searchTerms[i];
+    await page.goto(`https://www.google.com/search?q=${query}`);
+    await page.waitForTimeout(2000);
 
+    let queryData = await page.evaluate(() => {
+      let queries = [];
+      let queriesElms = document.querySelectorAll('div.g');
+      queriesElms.forEach((queryelement) => {
+        let resultJSON = {};
+        try {
+          resultJSON.name = queryelement.querySelector('h3').innerText;
+          resultJSON.domain = queryelement.querySelector('cite').innerText;
+          resultJSON.pageDate = queryelement.querySelector('span.f').innerText;
+        }
+        catch (exception) {
+        }
+        queries.push(resultJSON);
+      });
+      return queries;
+    });
 
-  await page.close();
-  await browser.close();
-  console.log("Your screenshots is ready! 📸  Go to ../screenshots/");
-}
-
-run();
+    console.dir(queryData)
+    if (screenshot) {
+      await page.screenshot({
+        path: `../screenshots/${today}-${query}.jpg`,
+        type: "jpeg",
+      });
+      console.log("Also your screenshots is ready! 📸  Go to ../screenshots/");
+    }
+    const data = JSON.stringify(queryData);
+    fs.writeFile(`../search_results/${query}.json`, data, 'utf8', (err) => {
+      if (err) {
+        console.log(`Error writing file: ${err}`);
+      } else {
+        console.log(`Query of ${query} is written successfully! 👍 `);
+      }
+    });
+  }
+  console.log("Done! 🚀");
+})();

@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  background-color: #282c34;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -37,3 +36,44 @@
   height: 100%;
   object-fit: cover;
 }
+
+.image-list-wrapper{
+  padding: 1rem;
+  color: white;
+}
+
+.query_box {
+  border-bottom: 3px solid #bfbfbf;
+  padding: 1rem;
+  margin: 1rem;
+}
+.query_box h2{
+font-size: 0.8rem;
+}
+.query_box_title {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 0.5rem;
+}
+
+.query_box ul li {
+  font-size: 1rem;
+  text-align: left;
+  list-style: none;
+  font-size: 0.8rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 0.6rem;
+  font-size: 0.7rem;
+}
+
+.query_box a {
+  color: #8c8c8c;
+}
+.query_box strong {
+  margin-left: 1rem;
+}
+
+
+ 
