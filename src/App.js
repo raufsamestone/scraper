@@ -1,7 +1,24 @@
 import "./App.css";
+import React, {useState} from 'react'
 import Link from "react";
+import {warningMessage} from "../src/contents/content"
+// import firebase from "./firebase/firebase";
 
 function App() {
+
+  // firebase
+  //   .firestore()
+  //   .collection('books')
+  //   .onSnapshot(snap => {
+  //     const blogs = snap.docs.map(doc => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }))
+  //     setBlogs(blogs)
+  //   })
+
+  // const [blogs, setBlogs] = useState([])
+
   function importAll(r) {
     return r.keys().map(r);
   }
@@ -13,10 +30,29 @@ function App() {
     require.context("./search_results", false, /\.(html|json|zip)$/)
   );
 
+  const updateInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
 
   return (
     <div className="App">
-      {results.map((data, i) => (
+
+<form>
+     <input
+       type="text"
+       name="fullname"
+       placeholder="Full name"
+       onChange={updateInput}
+      />
+      </form>
+
+
+
+
+{!results ? 
+      results.map((data, i) => (
         <div key={i} className='query_box'>
         Search For "<h1>Başlık</h1>"
           {data.map((data, i) => (
@@ -34,8 +70,15 @@ function App() {
           ))}
         </div>
       ))
-      }
-
+      :
+      <div className='query_box'>
+      <div className='query_box_title'> 
+      <h2>       
+     {warningMessage}
+       </h2>
+        </div>
+        </div>
+    }
       {/*
       IMAGES FOR SS
        <div className="images">

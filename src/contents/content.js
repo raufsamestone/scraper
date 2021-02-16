@@ -1,0 +1,1 @@
+export const warningMessage = "No data. Please run the scraper!"
