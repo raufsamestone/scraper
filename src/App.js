@@ -48,9 +48,6 @@ function App() {
       />
       </form>
 
-
-
-
 {!results ? 
       results.map((data, i) => (
         <div key={i} className='query_box'>

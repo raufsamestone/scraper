@@ -5,10 +5,10 @@ const puppeteer = require('puppeteer');
 
   // Settings
   const searchTerms = [
-    'shoe',
-    'red shoe',
+    'mes',
+    'yapay zeka',
   ];
-  const screenshot = false
+  const screenshot = true
 
   
   const browser = await puppeteer.launch({ headless: true });
